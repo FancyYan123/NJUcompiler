@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include "syntaxTree.h"
 #include "syntax.tab.h"
+#include "symbolTable.h"
+#include "semantic.h"
 
 extern int LexErrorFlag;
 extern int SynErrorFlag;
@@ -20,8 +22,10 @@ int main(int argc, char** argv){
 //	yydebug = 1;
 	yyparse();
 
-	if(LexErrorFlag==1 && SynErrorFlag==1)
+	if(LexErrorFlag==1 && SynErrorFlag==1){
 		traversal(root, 0);
+		Program(root);
+	}
 
 	return 0;
 }

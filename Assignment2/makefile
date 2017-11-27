@@ -1,7 +1,7 @@
 parser:
 	bison -d syntax.y
 	flex lexical.l
-	gcc main.c syntax.tab.c syntaxTree.c -lfl -ly -o parser
+	gcc main.c syntax.tab.c syntaxTree.c symbolTable.c semantic.c -lfl -ly -o parser
 
 #add yydebug=1 before yyparse() to get file:syntax.output
 debug:

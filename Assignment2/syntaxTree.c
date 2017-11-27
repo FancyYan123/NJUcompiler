@@ -65,7 +65,7 @@ void traversal(Node* root, int space){
 	if(root!=NULL){
 		//actions before traversal:
 		for(i=0; i<space; i++)
-			printf("  ");
+			printf("**");
 		if(strlen(root->value)==0)
 			printf("%s (%d)\n", root->type, root->line);
 		else

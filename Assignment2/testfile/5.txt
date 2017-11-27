@@ -1,5 +1,5 @@
 int main()
 {
-    int i = 0123;
-    int j = 0x3F;
+    int i;
+    i = 3.7;
 }

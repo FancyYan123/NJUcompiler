@@ -1,8 +1,8 @@
+int func(int i)
+{
+    return i;
+}
 int main()
 {
-    // line comment
-    /*
-    block comment
-    */
-    int i =1;
+    func(1, 2);
 }

@@ -15,7 +15,7 @@ Type* StructSpecifier(Node* node);
 
 void ExtDecList(Node* node, Type* varType);
 
-FieldList* VarDec(Node* node, Type* varType);
+FieldList* VarDec(Node* node, Type* varType, int from);
 FieldList* DefList(Node* node, int from);
 FuncDef* FunDec(Node* node, Type* rtn);
 FieldList* VarList(Node* node);

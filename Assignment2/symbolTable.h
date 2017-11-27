@@ -74,6 +74,12 @@ FieldList* findVar(char* varName);	//find the node named varName
 void insertFunc(FuncDef* func);
 FuncDef* findFunc(char* FuncName);
 
+//debug functions, output hashtable and linkedlist information:
+void printFieldList(FieldList* var);
+void printVarTable();
+void printFuncDef(FuncDef* f);
+void printFuncList();
+
 //interface of Stack:
 void initStack();
 void insertStackTail(FieldList* node);	//insert the node to the tail of stack top; 

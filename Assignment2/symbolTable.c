@@ -204,3 +204,52 @@ Type* checkStructInlist(Structure* s, char* name){
 	}
 	return NULL;
 }
+
+void printFieldList(FieldList* var){
+	if(var==NULL)
+		return;
+	printf("%s:", var->name);
+	assert(var->type!=NULL);
+	printf("kind%d==>", var->type->kind);	
+}
+
+void printVarTable(){
+	printf("VarTable: \n");
+	int i;
+	for(i=0; i<HASH_LENGTH; i++){
+		FieldList* head = VarTable[i];
+		if(head!=NULL)
+			printf("index %d:  ", i);
+		while(head!=NULL){
+			printFieldList(head);
+			head = head->next;
+			if(head==NULL)
+				printf("NULL \n\n");
+		}
+	}
+}
+
+void printFuncDef(FuncDef* f){
+	if(f==NULL)
+		return;
+	printf("%s:", f->name);
+	assert(f->rtn!=NULL);
+	printf("return %d, ", f->rtn->kind);
+	
+	FieldList* head = f->param;
+	while(head!=NULL){
+		printf("%s:%d,", head->name, head->type->kind);	
+		head = head->next;
+	}
+	printf("==>");
+}
+
+void printFuncList(){
+	printf("FuncList: \n");
+	FuncDef* head = FuncList;
+	while(head!=NULL){
+		printFuncDef(head);
+		head = head->next;
+	}
+	printf("NULL \n\n");
+}

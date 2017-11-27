@@ -1,4 +1,5 @@
 int main()
 {
-    float i = 1.05e-4;
+    float j;
+    10 + j;
 }
