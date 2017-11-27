@@ -5,7 +5,7 @@ parser:
 
 #add yydebug=1 before yyparse() to get file:syntax.output
 debug:
-	bison -d -t syntax.y
+	bison -d -t --debug syntax.y
 	flex lexical.l
 	gcc main.c syntax.tab.c syntaxTree.c -lfl -ly -o parser
 

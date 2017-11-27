@@ -8,6 +8,7 @@
 extern int LexErrorFlag;
 extern int SynErrorFlag;
 extern void yyrestart(FILE *input_file);
+extern int yydebug;
 
 int main(int argc, char** argv){
 	if(argc <= 1)
@@ -27,5 +28,7 @@ int main(int argc, char** argv){
 		Program(root);
 	}
 
+	else
+		traversal(root, 0);
 	return 0;
 }

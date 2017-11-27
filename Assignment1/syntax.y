@@ -2,7 +2,7 @@
 	#include <stdio.h>
 	#include "syntaxTree.h"
 	#include "lex.yy.c"
-
+//	int yydebug = 1;
 //	Node* root;
 %}
 

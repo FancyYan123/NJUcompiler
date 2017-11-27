@@ -7,7 +7,7 @@ parser:
 debug:
 	bison -d -t syntax.y
 	flex lexical.l
-	gcc main.c syntax.tab.c syntaxTree.c -lfl -ly -o parser
+	gcc main.c syntax.tab.c syntaxTree.c symbolTable.c semantic.c -lfl -ly -o parser
 
 test:
 	gcc test.c symbolTable.c -o test

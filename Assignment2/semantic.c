@@ -577,7 +577,7 @@ FieldList* Dec(Node* node, Type* varType, int from){
 			printf("Dec2\n");
 			Type* rightType = Exp(child);
 			if(compareType(varType, rightType)==false){
-				printf("Error5 at line%d: the types on both sides of '=' are not the same. \n", child->line);
+				printf("Error type 5 at line%d: the types on both sides of '=' are not the same. \n", child->line);
 				free(var);
 				var = NULL;
 			}
@@ -626,12 +626,12 @@ Type* Exp(Node* node){
 			if(leftType==NULL || rightType==NULL)
 				return NULL;
 			else if(leftType->assign == RIGHT){
-				printf("Error type 6 at line %d: The left-hand side of an assignment must be a variable. \n ", child->line);
+				printf("Error type 6 at line %d: The left-hand side of an assignment must be a variable. '%s' \n ", child->line, structNode->value);
 				return NULL;
 			}
 
 			else if(compareType(leftType, rightType)==false){
-				printf("Error5 at line %d: the types on both sides of '=' is not the same. \n", child->line);
+				printf("Error type 5 at line %d: the types on both sides of '=' is not the same. \n", child->line);
 				return NULL;
 			}
 
@@ -653,8 +653,10 @@ Type* Exp(Node* node){
 			}
 			else{
 				assert(leftType->u.array.elem!=NULL);
-				leftType->u.array.elem->assign = BOTH;
-				return leftType->u.array.elem;
+				Type* rtn = malloc(sizeof(Type));
+				memcpy(rtn, leftType->u.array.elem, sizeof(Type));
+				rtn->assign = BOTH;
+				return rtn;
 			}
 		}
 
@@ -672,12 +674,14 @@ Type* Exp(Node* node){
 				return NULL;
 			}
 			else{
-				Type* rtn = checkStructInlist(&structID->type->u.structure, child->Sibling->value);
-				if(rtn==NULL){
+				Type* field = checkStructInlist(&structID->type->u.structure, child->Sibling->value);
+				if(field==NULL){
 					printf("Error type 14 at line %d: undefine field '%s'. \n", child->line, child->Sibling->value);
 					return NULL;
 				}
 				else{
+					Type* rtn = malloc(sizeof(Type));
+					memcpy(rtn, field, sizeof(Type));
 					rtn->assign = BOTH;
 					return rtn;
 				}
@@ -750,7 +754,8 @@ Type* Exp(Node* node){
 				return NULL;
 			}
 			else{
-				Type* rtn = var->type;
+				Type* rtn = malloc(sizeof(Type));
+				memcpy(rtn, var->type, sizeof(Type));
 				rtn->assign = BOTH;
 				return rtn;
 			}
@@ -775,7 +780,8 @@ Type* Exp(Node* node){
 					return NULL;
 				}
 				else{
-					Type* rtn = func->rtn;
+					Type* rtn = malloc(sizeof(Type));
+					memcpy(rtn, func->rtn, sizeof(Type));
 					rtn->assign = RIGHT;
 					return rtn;
 				}
@@ -788,7 +794,8 @@ Type* Exp(Node* node){
 					return NULL;
 				}
 				else{
-					Type* rtn = func->rtn;
+					Type* rtn = malloc(sizeof(Type));
+					memcpy(rtn, func->rtn, sizeof(Type));
 					rtn->assign = RIGHT;
 					return rtn;
 				}
