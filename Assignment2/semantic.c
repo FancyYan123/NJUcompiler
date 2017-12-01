@@ -51,23 +51,21 @@ void ExtDef(Node* node){
 		//TODO: TO DEBUG
 		printFuncDef(newFunc);
 		printf("ExtDef1\n");
-		Type* rtnType = CompSt(child->Sibling);
+		Type* rtnType = CompSt(child->Sibling, varType);
 		//TODO: TO DEBUG
 		printf("ExtDef2\n");
+
+		if(rtnType==NULL){
+			printf("Error type 8 at line %d: no return statement in function '%s'. \n", child->line, newFunc->name);
+		}
 
 		if(findFunc(newFunc->name)!=NULL){
 			printf("Error type 4 at line %d: redefined function '%s'. \n", child->line, newFunc->name);
 			free(newFunc);
+			return;
 		}
-		else{
-			newFunc->rtn = varType;
-			if(compareType(varType, rtnType)==false){
-				printf("Error type 8 at line %d: Type mismatched for return. \n", child->line);
-			}
-			else{
-				insertFunc(newFunc);
-			}
-		}
+
+		insertFunc(newFunc);
 		//TODO: TO DEBUG
 		printFuncList();
 	}
@@ -312,12 +310,12 @@ Type* checkRtnType(Type* rtn1, Type* rtn2){
 	return rtn;
 }
 
-Type* CompSt(Node* node){
+Type* CompSt(Node* node, Type* rtnType){
 	//return the return type of function
 	assert(strcmp(node->type, "CompSt")==0);
 
 	Node* child = node->Child;
-	Type* rtnType = NULL;
+	Type* rtn = NULL;
 	//TODO: TO DEBUG
 	printf("CompSt0\n");
 	while(child!=NULL){
@@ -333,16 +331,16 @@ Type* CompSt(Node* node){
 		else if(strcmp(child->type, "StmtList")==0){
 			//TODO: TO DEBUG
 			printf("CompSt3\n");
-			rtnType = StmtList(child);
+			rtn = StmtList(child, rtnType);
 			printf("CompSt4\n");
 		}
 
 		child = child->Sibling;
 	}
-	return rtnType;
+	return rtn;
 }
 
-Type* StmtList(Node* node){
+Type* StmtList(Node* node, Type* rtnType){
 	if(node==NULL)
 		return NULL;
 	assert(strcmp(node->type, "StmtList")==0);
@@ -352,17 +350,18 @@ Type* StmtList(Node* node){
 	if(child!=NULL){
 		//TODO: TO DEBUG
 		printf("StmtList0\n");
-		Type* rtn1 = Stmt(child);
+		Type* rtn1 = Stmt(child, rtnType);
 		printf("StmtList1\n");
 		child = child->Sibling;
-		Type* rtn2 = StmtList(child);	
+		Type* rtn2 = StmtList(child, rtnType);	
 		
-		rtn = checkRtnType(rtn1, rtn2);
+		//rtn = checkRtnType(rtn1, rtn2);
+		rtn = rtn2==NULL?rtn1:rtn2;
 	}
 	return rtn;
 }
 
-Type* Stmt(Node* node){
+Type* Stmt(Node* node, Type* rtnType){
 	Node* child = node->Child;
 	Type* rtn = NULL;
 
@@ -375,8 +374,9 @@ Type* Stmt(Node* node){
 		}
 		
 		else if(strcmp(child->type, "CompSt")==0){
-			Type* tempType = CompSt(child);
-			rtn = checkRtnType(tempType, rtn);
+			Type* tempType = CompSt(child, rtnType);
+			//rtn = checkRtnType(tempType, rtn);
+			rtn = tempType==NULL?rtn:tempType;
 		}
 
 		else if(strcmp(child->type, "IF")==0 || strcmp(child->type, "WHILE")==0){
@@ -391,13 +391,22 @@ Type* Stmt(Node* node){
 		}
 
 		else if(strcmp(child->type, "Stmt")==0){
-			Type* tempType = Stmt(child);
-			rtn = checkRtnType(tempType, rtn);
+			Type* tempType = Stmt(child, rtnType);
+			//rtn = checkRtnType(tempType, rtn);
+			rtn = tempType==NULL?rtn:tempType;
 		}
 
 		else if(strcmp(child->type, "RETURN")==0){
 			child = child->Sibling;
-			rtn = Exp(child);
+			Type* tempType = Exp(child);
+			if(tempType!=NULL){
+				if(compareType(tempType, rtnType)==false){
+					printf("Error 8 at line %d: type mismatched for return. \n", child->line);
+				}
+				rtn = tempType;
+			}
+			else
+				printf("Error 8 at line %d: type mismatched for return. \n", child->line);
 		}
 		
 		child = child->Sibling;
@@ -626,7 +635,7 @@ Type* Exp(Node* node){
 			if(leftType==NULL || rightType==NULL)
 				return NULL;
 			else if(leftType->assign == RIGHT){
-				printf("Error type 6 at line %d: The left-hand side of an assignment must be a variable. '%s' \n ", child->line, structNode->value);
+				printf("Error type 6 at line %d: The left-hand side of an assignment must be a variable, while '%s' is right-valued. \n ", child->line, structNode->value);
 				return NULL;
 			}
 

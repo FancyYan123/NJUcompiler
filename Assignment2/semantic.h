@@ -20,10 +20,10 @@ FieldList* DefList(Node* node, int from);
 FuncDef* FunDec(Node* node, Type* rtn);
 FieldList* VarList(Node* node);
 FieldList* ParamDec(Node* node);
-Type* CompSt(Node* node);
+Type* CompSt(Node* node, Type* rtnType);
 
-Type* StmtList(Node* node);
-Type* Stmt(Node* node);
+Type* StmtList(Node* node, Type* rtnType);
+Type* Stmt(Node* node, Type* rtnType);
 
 //when from equals 1, we should create 2 variable nodes, one for varTable, the another for structure type.
 FieldList* DefList(Node* node, int from);
