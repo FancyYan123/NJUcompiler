@@ -169,13 +169,13 @@ digit [0-9]
 	return WHILE;
 }
 
-[+-]?(([1-9][0-9]*)|0) { 
+(([1-9][0-9]*)|0) { 
 	//printf("<INT %d> ", atoi(yytext));
 	yylval.node = initNode("INT", yytext);
 	return INT;
 }
 
-[+-]?((0[1-7][0-7]*)|0) {
+((0[1-7][0-7]*)|0) {
 	//printf("<INT oct %d> ", oct_to_deci(yytext));
 	int val = oct_to_deci(yytext);
 	char text[32];
@@ -184,7 +184,7 @@ digit [0-9]
 	return INT;
 }
 
-[+-]?((0x|0X)([1-9a-fA-F][0-9a-fA-F]*|0)) {
+((0x|0X)([1-9a-fA-F][0-9a-fA-F]*|0)) {
 	//printf("INT hex %d> ", hex_to_deci(yytext));
 	int val = hex_to_deci(yytext);
 	char text[32];
@@ -193,13 +193,13 @@ digit [0-9]
 	return INT;
 }
 
-[+-]?(([0-9]*\.[0-9]+)|([0-9]+\.)) {
+(([0-9]*\.[0-9]+)|([0-9]+\.)) {
 	//printf("<FLOAT %f> ", atof(yytext));
 	yylval.node = initNode("FLOAT", yytext);
 	return FLOAT;
 }
 
-[+-]?(([0-9]*\.[0-9]+)|([0-9]+\.))e[+-]?(([1-9][0-9]*)|0) { 
+(([0-9]*\.[0-9]+)|([0-9]+\.))e[+-]?(([1-9][0-9]*)|0) { 
 	//float type in exponential format
 	float realFloat = exp_to_float(yytext);
 	char text[64];
@@ -211,20 +211,20 @@ digit [0-9]
 	return FLOAT;  
 }
 
-[+-]?(([0-9]*\.[0-9]+)|([0-9]+\.))e {
+(([0-9]*\.[0-9]+)|([0-9]+\.))e {
 	//error type of expotional float
 	printf("Error type A at line %d: error float/double type in expotional format: \'%s\' \n", yylineno, yytext);
 	LexErrorFlag = 0;
 }
  
-[+-]?(0x|0X)([0-9a-fA-F]*[g-zG-Z]+[0-9a-fA-F]*) {
+(0x|0X)([0-9a-fA-F]*[g-zG-Z]+[0-9a-fA-F]*) {
 	//error type of hexadecimal
 
 	printf("Error type A at line %d: error hexadecimal number \'%s\' \n",yylineno, yytext);
 	LexErrorFlag = 0;
 }
 
-[+-]?(0[0-7]*[89]+[0-7]*) {
+(0[0-7]*[89]+[0-7]*) {
 	//error type of octonary
 
 	printf("Error type A at Line %d: error octonary number \'%s\'\n", yylineno, yytext);	

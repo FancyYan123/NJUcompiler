@@ -78,6 +78,7 @@ ExtDefList:ExtDef ExtDefList {$$=initNode("ExtDefList", ""); insert($$, $1);inse
 ExtDef:Specifier ExtDecList SEMI {$$=initNode("ExtDef",""); insert($$,$1); insert($$, $2); insert($$, $3);}
   | Specifier SEMI {$$=initNode("ExtDef", ""); insert($$, $1); insert($$, $2);}
   | Specifier FunDec CompSt {$$=initNode("ExtDef", ""); insert($$, $1); insert($$, $2); insert($$, $3);}
+  | Specifier FunDec SEMI { $$=initNode("ExtDef", ""); insert($$, $1); insert($$, $2); insert($$, $3);}
   | error SEMI { SynErrorFlag = 0; }
   ;
 ExtDecList:VarDec {$$=initNode("ExtDecList", ""); insert($$, $1);}

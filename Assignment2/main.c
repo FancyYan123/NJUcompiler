@@ -20,15 +20,15 @@ int main(int argc, char** argv){
 		return 1;
 	}
 	yyrestart(f);
-//	yydebug = 1;
+	yydebug = 1;
 	yyparse();
 
 	if(LexErrorFlag==1 && SynErrorFlag==1){
-		traversal(root, 0);
+//		traversal(root, 0);
 		Program(root);
 	}
 
-	else
-		traversal(root, 0);
+//	else
+//		traversal(root, 0);
 	return 0;
 }

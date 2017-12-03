@@ -37,6 +37,8 @@ typedef struct Type_{
 
 typedef struct FieldList_{
 	char name[32];
+	enum {VARIABLE, STRUCTURETYPE} kind;
+
 	Type* type;							//type of the area;
 	struct FieldList_ *pre;			//for convenience of delete
 	struct FieldList_ *next;	        //next node of hash table;
@@ -48,6 +50,8 @@ typedef struct FuncDef_{
 	char name[50];
 	Type* rtn;
 	FieldList* param;
+	bool is_define;
+	int line;
 	struct FuncDef_* next;
 }FuncDef;	//use a linklist to store defination or declaration of function
 
@@ -57,13 +61,15 @@ extern FuncDef* FuncList;
 extern FieldList* Stack[MAX_EMBEDDED];
 extern int StackLevel;
 
+bool compareFunc(FuncDef *func1, FuncDef *func2);
 bool compareFieldList(FieldList* node1, FieldList* node2);
 bool compareType(Type* node1, Type* node2);
+bool Compare_StructureType(Type* node1, Type* node2);
 int calcHashIndex(char* str);
 void freeFieldList(FieldList* head);
 FieldList* getFieldListTail(FieldList* head);
 //to find if the structure contains field named 'name'
-Type* checkStructInlist(Structure* s, char* name);
+Type* checkStructInlist(FieldList* s, char* name);
 
 //interface of VarTable:
 void initVarTable();
@@ -79,6 +85,7 @@ void printFieldList(FieldList* var);
 void printVarTable();
 void printFuncDef(FuncDef* f);
 void printFuncList();
+void printInList(FieldList* inList);
 
 //interface of Stack:
 void initStack();
