@@ -60,13 +60,7 @@ void ExtDef(Node* node){
 			//TODO: TO DEBUG
 			// printFuncDef(newFunc);
 			// printf("ExtDef1\n");
-			Type* rtnType = CompSt(child->Sibling, varType);
-			//TODO: TO DEBUG
-			// printf("ExtDef2\n");
-
-			if(rtnType==NULL){
-				printf("Error type 8 at Line %d: no return statement in function '%s'. \n", child->line, newFunc->name);
-			}
+			
 
 			FuncDef *temp = findFunc(newFunc->name);
 			if(temp != NULL){
@@ -102,7 +96,17 @@ void ExtDef(Node* node){
 				}
 
 			}
-			else insertFunc(newFunc);
+			else 
+				insertFunc(newFunc);
+
+
+			Type* rtnType = CompSt(child->Sibling, varType);
+			//TODO: TO DEBUG
+			// printf("ExtDef2\n");
+
+			if(rtnType==NULL){
+				printf("Error type 8 at Line %d: no return statement in function '%s'. \n", child->line, newFunc->name);
+			}
 		}
 		//declaration
 		else {
