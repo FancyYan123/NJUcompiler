@@ -1,0 +1,35 @@
+FUNCTION func :
+PARAM v1
+PARAM v2
+PARAM v3
+PARAM v4
+PARAM v5
+t8 := v1
+t9 := v2
+t6 := t8 + t9
+t7 := v3
+t4 := t6 + t7
+t5 := v4
+t2 := t4 + t5
+t3 := v5
+t1 := t2 + t3
+v6 := t1
+t10 := v6
+RETURN t10
+FUNCTION main :
+t12 := #1
+t13 := #2
+t14 := #3
+t15 := #4
+t16 := #5
+ARG t16
+ARG t15
+ARG t14
+ARG t13
+ARG t12
+t11 := CALL func
+v7 := t11
+t18 := v7
+WRITE t18
+t19 := #0
+RETURN t19

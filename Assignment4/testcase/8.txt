@@ -1,0 +1,12 @@
+int func(int a, int b, int c, int d, int e){
+	int i;
+	i = a+b+c+d+e;
+	return i;
+}
+
+int main(){
+	int rtn;
+	rtn = func(1, 2, 3, 4, 5);
+	write(rtn);
+	return 0;
+}
